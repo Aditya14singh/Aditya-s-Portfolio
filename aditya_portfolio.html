@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Singh – Content Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-main: #0b0d0f;
+    --bg-card: rgba(18, 19, 22, 0.78);
+    --border-soft: #1f2228;
+    --text-main: #e8e4dc;
+    --text-dim: #8f95a1;
+    --brand: #7a9e7e;
+    --shadow-green: rgba(122, 158, 126, 0.18);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background:
+      radial-gradient(circle at 10% 10%, rgba(122, 158, 126, 0.08), transparent 35%),
+      radial-gradient(circle at 90% 25%, rgba(94, 128, 151, 0.09), transparent 28%),
+      var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .bg-glow {
+    position: fixed;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(70px);
+    opacity: 0.28;
+    display: none;
+  }
+  .bg-glow.one {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: #7a9e7e;
+    top: 12%;
+    left: -60px;
+  }
+  .bg-glow.two {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: #4e6b95;
+    right: -80px;
+    top: 48%;
+    animation-delay: 1.5s;
+  }
+  .hero { padding: 80px 60px 60px; border-bottom: 1px solid var(--border-soft); position: relative; }
+  .tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a9e7e; margin-bottom: 20px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 58px; font-weight: 400; line-height: 1.1; color: #f0ece2; }
+  .hero h1 span { color: #7a9e7e; font-style: italic; }
+  .hero p { margin-top: 20px; font-size: 16px; color: var(--text-dim); max-width: 520px; line-height: 1.7; font-weight: 300; }
+  .meta { margin-top: 32px; display: flex; gap: 32px; }
+  .meta-item { font-size: 13px; color: #666; }
+  .meta-item strong { color: #aaa; display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; font-weight: 400; }
+  nav {
+    display: flex;
+    gap: 0;
+    padding: 0 60px;
+    border-bottom: 1px solid var(--border-soft);
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    background: rgba(11, 13, 15, 0.82);
+    backdrop-filter: blur(10px);
+    z-index: 20;
+  }
+  .nav-btn { background: none; border: none; border-bottom: 2px solid transparent; color: #6f7681; font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; padding: 18px 24px 16px; cursor: pointer; white-space: nowrap; }
+  .nav-btn:hover { color: #d5d8de; }
+  .nav-btn.active { color: var(--brand); border-bottom-color: var(--brand); }
+  .section { display: none; padding: 60px; max-width: 1120px; margin: 0 auto; width: 100%; }
+  .section.visible { display: block; }
+  .section-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7a9e7e; margin-bottom: 32px; }
+  .blogs-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: start; }
+  .blogs-main, .blogs-side { display: flex; flex-direction: column; gap: 0; }
+  .article-card { border: 1px solid var(--border-soft); border-radius: 10px; padding: 40px; margin-bottom: 32px; background: var(--bg-card); backdrop-filter: blur(8px); }
+  .article-card:hover { border-color: #2a3137; }
+  .article-meta { display: flex; gap: 16px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
+  .pill { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
+  .pill-green { background: #0e1f10; color: #7a9e7e; border: 1px solid #1c3b1e; }
+  .pill-gray { background: #1a1a1a; color: #666; border: 1px solid #222; }
+  .article-card h2 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; color: #f0ece2; margin-bottom: 12px; line-height: 1.3; }
+  .article-card .subtitle { font-size: 14px; color: #666; margin-bottom: 20px; font-style: italic; }
+  .article-body { font-size: 15px; line-height: 1.85; color: #999; font-weight: 300; }
+  .article-body p { margin-bottom: 16px; }
+  .article-body h3 { font-family: 'Playfair Display', serif; font-size: 18px; color: #ccc; margin: 24px 0 10px; font-weight: 400; }
+  .blogs-side .article-card { padding: 28px; }
+  .blogs-side .article-card h2 { font-size: 28px; line-height: 1.2; margin-bottom: 10px; }
+  .blogs-side .article-card .subtitle { font-size: 13px; margin-bottom: 16px; }
+  .blogs-side .article-card .article-body { font-size: 14px; line-height: 1.72; color: #9197a3; }
+  .blogs-side .article-card .read-more { margin-top: 14px; font-size: 11px; }
+  .read-more { margin-top: 20px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--brand); cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 0; }
+  .read-more:hover { color: #9ec2a1; }
+  .full-content { display: none; }
+  .full-content.open { display: block; }
+  .caption-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .caption-card { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: 10px; padding: 28px; }
+  .caption-card:hover { border-color: #2a3137; }
+  .caption-card .platform { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #7a9e7e; margin-bottom: 14px; }
+  .caption-card .topic { font-size: 13px; font-weight: 500; color: #ccc; margin-bottom: 12px; }
+  .caption-card .caption-text { font-size: 13px; line-height: 1.75; color: #888; font-weight: 300; }
+  .caption-card .hashtags { margin-top: 12px; font-size: 12px; color: #4a6e4e; line-height: 1.6; }
+  .seo-box { background: var(--bg-card); border: 1px solid var(--border-soft); padding: 40px; border-radius: 10px; margin-bottom: 24px; }
+  .seo-box h2 { font-family: 'Playfair Display', serif; font-size: 26px; color: #f0ece2; margin-bottom: 8px; font-weight: 400; }
+  .seo-box .kw { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #4a6e4e; margin-bottom: 20px; }
+  .seo-body { font-size: 14px; line-height: 1.85; color: #888; font-weight: 300; }
+  .seo-body p { margin-bottom: 14px; }
+  .seo-body strong { color: #bbb; font-weight: 500; }
+  .calendar-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .calendar-table th { text-align: left; padding: 10px 14px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #4a6e4e; border-bottom: 1px solid #1e1e1e; font-weight: 400; }
+  .calendar-table td { padding: 14px 14px; border-bottom: 1px solid #161616; color: #888; vertical-align: top; font-weight: 300; }
+  .calendar-table td:first-child { color: #ccc; font-weight: 400; }
+  .calendar-table tr:last-child td { border-bottom: none; }
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes heroLine {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.28; }
+    50%       { opacity: 0.42; }
+  }
+
+  /* hero entrance */
+  .hero .tag     { animation: heroLine 0.6s ease both; animation-delay: 0.1s; opacity: 0; }
+  .hero h1       { animation: heroLine 0.7s ease both; animation-delay: 0.25s; opacity: 0; }
+  .hero p        { animation: heroLine 0.7s ease both; animation-delay: 0.42s; opacity: 0; }
+  .hero .meta    { animation: heroLine 0.7s ease both; animation-delay: 0.58s; opacity: 0; }
+
+  /* glowing blobs animate */
+  .bg-glow { display: block !important; animation: glowPulse 6s ease-in-out infinite; }
+  .bg-glow.two { animation-delay: 2s; }
+
+  /* parallax layers */
+  .hero { will-change: transform; }
+  .bg-glow { will-change: transform; transition: transform 0.12s linear; }
+
+  /* scroll-reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* card hover lift */
+  .article-card {
+    transition: border-color 0.2s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 36px rgba(122, 158, 126, 0.09);
+    border-color: #2e3a30 !important;
+  }
+  .caption-card {
+    transition: border-color 0.2s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .caption-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(122, 158, 126, 0.07);
+    border-color: #2e3a30 !important;
+  }
+
+  /* tab section fade-in on switch */
+  .section.visible {
+    animation: fadeUp 0.38s ease both;
+  }
+
+  /* nav active underline animates in */
+  .nav-btn {
+    transition: color 0.18s ease;
+    position: relative;
+  }
+  .nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--brand);
+    transform: scaleX(0);
+    transition: transform 0.22s ease;
+    transform-origin: left;
+  }
+  .nav-btn.active::after { transform: scaleX(1); }
+  .nav-btn.active { border-bottom-color: transparent; }
+  @media (max-width: 700px) {
+    .hero { padding: 48px 24px 40px; }
+    .hero h1 { font-size: 36px; }
+    nav { padding: 0 24px; }
+    .section { padding: 40px 24px; }
+    .blogs-layout { grid-template-columns: 1fr; gap: 0; }
+    .blogs-side .article-card { padding: 30px; }
+    .blogs-side .article-card h2 { font-size: 30px; }
+    .caption-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-glow one"></div>
+<div class="bg-glow two"></div>
+
+<div class="hero">
+  <div class="tag">Content Portfolio</div>
+  <h1>Aditya Singh<br><span>simplifying tech & ideas.</span></h1>
+  <p>Aspiring content writer with a sharp eye for tech, AI, and digital culture. I write to inform, engage, and make complex ideas feel effortless to read.</p>
+  <div class="meta">
+    <div class="meta-item"><strong>Focus</strong>Tech, AI & Productivity</div>
+    <div class="meta-item"><strong>Formats</strong>Blogs, SEO, Social, Newsletter</div>
+    <div class="meta-item"><strong>Available</strong>Immediately</div>
+  </div>
+</div>
+
+<nav>
+  <button class="nav-btn active" onclick="show('blogs', this)">Blog Articles</button>
+  <button class="nav-btn" onclick="show('social', this)">Social Media</button>
+  <button class="nav-btn" onclick="show('seo', this)">SEO Article</button>
+  <button class="nav-btn" onclick="show('newsletter', this)">Newsletter</button>
+  <button class="nav-btn" onclick="show('calendar', this)">Editorial Calendar</button>
+</nav>
+
+<div id="blogs" class="section visible">
+  <div class="section-label">Written Work: Blog Articles</div>
+  <div class="blogs-layout">
+    <div class="blogs-main">
+
+  <div class="article-card">
+    <div class="article-meta">
+      <span class="pill pill-green">Technology</span>
+      <span class="pill pill-gray">7 min read</span>
+    </div>
+    <h2>The AI That Knows You Better Than You Know Yourself</h2>
+    <div class="subtitle">How recommendation algorithms quietly became the architects of your daily life</div>
+    <div class="article-body">
+      <p>Think about the last thing you watched on YouTube. Did you search for it? Or did it just appear? Chances are, you were three videos deep into something you never consciously decided to watch. A rabbit hole opened up because an algorithm calculated, with unsettling precision, exactly what would keep your eyes on the screen for another twelve minutes.</p>
+      <p>Now think about your Spotify Discover Weekly. Your Instagram Explore page. The products Amazon shows you before you even know you want them. None of that is accidental. None of it is neutral.</p>
+    </div>
+    <div class="full-content">
+      <div class="article-body">
+        <h3>What Is a Recommendation Algorithm, Actually?</h3>
+        <p>Strip away the buzzwords and a recommendation algorithm is doing something conceptually simple: it's trying to predict what you'll engage with next, based on what you and people like you have engaged with before.</p>
+        <p>The earliest versions were basic. Amazon in the early 2000s used simple collaborative filtering: "people who bought X also bought Y." No deep understanding of the user. Just pattern matching at scale.</p>
+        <p>But modern recommendation systems are something else entirely. They don't just track what you buy or watch. They track how. How long you hover over something before clicking. How far you scroll before stopping. Whether you reread a paragraph. Whether you close an app and come back to it. These "implicit signals" are, in many ways, more revealing than your explicit choices, because they capture behaviour you're not even consciously aware of.</p>
+        <p>Netflix famously revealed that it pays more attention to how long you watch something than whether you give it five stars. The reason is straightforward: people lie to themselves in ratings. They give prestige documentaries five stars because they feel they should enjoy them, while actually spending six hours watching reality TV. The algorithm knows which one you actually like. It watched you watch.</p>
+        <h3>The Architecture of Influence</h3>
+        <p>Here's where it starts getting genuinely uncomfortable: these systems are not designed to give you what you want. They're designed to maximise engagement. Those two things sound like the same thing. They are not.</p>
+        <p>What you want, at a deep level, might be to feel informed, connected, entertained, inspired. What keeps you engaged, moment to moment, is often something far more primal: outrage, anxiety, novelty, and validation. Algorithms figured this out quickly, because the data made it obvious. Content that triggers strong emotions keeps people on platforms longer. And platforms are paid by the minute.</p>
+        <p>In 2021, a leaked internal Facebook report revealed that the company's own researchers had found that its algorithm was actively amplifying divisive and hateful content because it generated more reactions. The recommendation system had learned, on its own, that anger was stickier than joy. It had no intention behind this. No malice. It was simply optimising for the metric it was given. Engagement. Time on platform. Clicks.</p>
+        <h3>The Echo Chamber Effect</h3>
+        <p>One of the most documented consequences of recommendation algorithms is the creation of filter bubbles: personalised information environments where you are increasingly only exposed to ideas, opinions, and perspectives that align with what you already believe.</p>
+        <p>It works like this: you watch one video that leans in a particular political or ideological direction. The algorithm notes this and recommends more content in the same vein, because that's what people like you engage with. You watch those too. The algorithm doubles down. Within weeks, your feed has quietly shifted to become an echo chamber that reflects and amplifies your existing worldview, while systematically hiding content that might challenge it.</p>
+        <p>Researchers studying radicalisation online have found that YouTube's recommendation engine, in particular, had a tendency to walk users from mainstream content toward progressively more extreme material, with each step small enough to feel natural while the cumulative drift becomes enormous. YouTube has since made adjustments. But the fundamental tension remains.</p>
+        <h3>The Data Portrait</h3>
+        <p>Spotify, by their own account, analyses over 400 billion data points per day across their user base. Each stream, each skip, and each playlist add all feed into models that can predict your mood, your context, and even your personality traits with remarkable accuracy. Research published using Spotify data found that listening patterns could be used to predict the Big Five personality traits: openness, conscientiousness, extraversion, agreeableness, and neuroticism, with statistically significant accuracy.</p>
+        <p>Your music taste is, apparently, a window into your soul. And an algorithm has been staring through it.</p>
+        <p>TikTok's algorithm is widely considered the most powerful and opaque of all. Researchers who have studied it describe a system that requires almost no prior data to begin building an accurate model of a user. Show TikTok a few seconds of your hesitation, and it starts to know you. Give it an hour, and it knows you well. Give it a week, and some users report feeling that it understands them better than their friends do.</p>
+        <h3>When the Mirror Becomes a Maze</h3>
+        <p>There is a genuinely fascinating psychological phenomenon that recommendation algorithms exploit, often without anyone designing them to: the mere exposure effect. This is the well-documented tendency of people to develop a preference for things simply because they have been exposed to them repeatedly.</p>
+        <p>In the context of algorithms, this creates a feedback loop that can be deeply self-reinforcing. The algorithm shows you content it predicts you'll like. You engage with it. Your engagement signals reinforce the algorithm's prediction. It shows you more of the same. Your tastes quietly narrow. You mistake familiarity for genuine preference. And the algorithm, reading your engagement, concludes it has found exactly what you want, when in reality, it has shaped what you want through repetition.</p>
+        <h3>The Bright Side (Yes, There Is One)</h3>
+        <p>It would be unfair to paint recommendation algorithms as purely sinister. At their best, they do something genuinely remarkable: they connect people with things they love that they never would have found on their own.</p>
+        <p>Before Spotify's Discover Weekly, the idea that a machine could reliably introduce you to music you'd never heard but immediately love felt far-fetched. Now, millions of people cite it as their primary way of discovering new artists. Independent musicians who would never have gotten radio play have found global audiences because an algorithm slotted their song into the right playlist at the right moment.</p>
+        <p>Squid Game was not expected to be a global phenomenon. The algorithm decided it would be, because it had seen how users who watched certain Korean dramas also responded to high-concept thrillers. The rest is cultural history. The technology is not inherently good or bad. It is a mirror and a shaper. The question is who controls what it optimises for.</p>
+        <h3>What You Can Actually Do</h3>
+        <p><strong>Actively rate and curate.</strong> Most platforms have explicit feedback mechanisms: thumbs up, thumbs down, and "not interested." Using these signals actively gives the algorithm better data and shifts it in directions you consciously choose.</p>
+        <p><strong>Break the pattern deliberately.</strong> Search for something completely outside your usual consumption habits every so often. You're not just expanding your own horizons; you're introducing noise into the algorithm's model of you, making it less certain and therefore less confining.</p>
+        <p><strong>Clear your history periodically.</strong> Most major platforms allow you to clear your watch or listening history. Doing this occasionally resets the algorithm's model and prevents it from locking you into patterns from months or years ago that no longer reflect who you are.</p>
+        <p><strong>Use the search function more.</strong> Searching for something specific is an act of intentionality. It means you are choosing, rather than being chosen for. The more you search rather than scroll, the more your consumption reflects your actual curiosity rather than the algorithm's predictions about it.</p>
+        <h3>The Algorithm Doesn't Know You</h3>
+        <p>The algorithm does not know you. It knows your data. It knows your patterns, your triggers, your weak moments, your attention span. It knows the version of you that exists in a stream of behaviour signals, but that version is not you.</p>
+        <p>You contain ambiguity. You contain contradiction. You are capable of changing your mind, of being moved by something you didn't expect, of making choices that surprise even yourself. None of that lives in a dataset. And no recommendation engine, however sophisticated, can model the full complexity of a human being who is still becoming who they're going to be.</p>
+        <p>Use it. Enjoy it. Let it introduce you to music you'll love and shows you wouldn't have found. But don't let it do your choosing for you. Because the moment you stop choosing, you stop becoming, and you just become a more accurate version of your own past.</p>
+      </div>
+    </div>
+    <button class="read-more" onclick="toggleRead(this)">Read Full Article ↓</button>
+  </div>
+
+  <div class="article-card">
+    <div class="article-meta">
+      <span class="pill pill-green">Gadgets</span>
+      <span class="pill pill-gray">5 min read</span>
+    </div>
+    <h2>5 Gadgets That Sound Like Science Fiction but Are Real</h2>
+    <div class="subtitle">The future arrived quietly. Here's what you might have missed.</div>
+    <div class="article-body">
+      <p>There is a strange thing that happens with technology. The moment something becomes commonplace, we completely forget how insane it would have sounded ten years ago. Wireless earbuds that fit invisibly in your ear and connect to your phone with no wires? In 2010, that was a sci-fi prop. Today, you lose them in your couch cushions and get mildly annoyed.</p>
+      <p>This is a list of five gadgets that deserve more attention than they are getting. Not concept renders. Not Kickstarter dreams. Real, purchasable, working technology that would have seemed completely implausible not long ago.</p>
+    </div>
+    <div class="full-content">
+      <div class="article-body">
+        <h3>1. Smart Glasses With a Built-In AI Assistant</h3>
+        <p>Google Glass was supposed to be the future. It launched in 2013, looked absurd, cost $1,500, and became a cultural punchline within two years. People who wore them in public were mockingly called "Glassholes." The product was discontinued. The dream, it seemed, was dead.</p>
+        <p>It was not dead. It was just waiting for the technology to catch up.</p>
+        <p>The smart glasses of 2024 look nothing like Google Glass. They look like normal glasses. Ray-Ban Meta, for instance, is a pair of stylish frames that you would wear to a coffee shop without anyone knowing they were anything other than ordinary eyewear. Inside those frames is a camera, open-ear speakers, microphones, and a connection to an AI assistant that can answer questions about what you are looking at in real time.</p>
+        <p>Point them at a restaurant menu in a foreign language and ask what things mean. Look at a landmark and ask for its history. More advanced versions from companies like Brilliant Labs include a small heads-up display that overlays information on your field of vision without the screen being visible to anyone around you. The version of this technology that was science fiction is basically here.</p>
+        <h3>2. Handheld Real-Time Translation Devices</h3>
+        <p>Here is a scenario. You are in Tokyo. You do not speak Japanese. You are trying to explain a dietary restriction to a restaurant owner who does not speak English. In 2015, this meant frantic gesturing and a lot of apologetic smiling.</p>
+        <p>In 2024, you hold up a device the size of a TV remote, speak into it in English, and the restaurant owner immediately hears natural-sounding Japanese coming from the other side. They respond in Japanese. You hear English. The entire conversation flows in real time, back and forth, as though you both share a language.</p>
+        <p>Devices like the Timekettle W4 handle two-way real-time voice translation across more than 40 languages. Some versions work entirely offline, with no internet connection required. Douglas Adams, in The Hitchhiker's Guide to the Galaxy, imagined a Babel Fish that you stuck in your ear and that instantly translated any language. We have not quite got to the ear part. But we are remarkably close to everything else.</p>
+        <h3>3. Contactless Sleep Trackers That Use Radar</h3>
+        <p>Sleep tracking has existed for a while, but the existing options have always had a catch. Smartwatches can do it, but you have to wear something on your wrist all night. Under-mattress pads can do it, but they require physical contact with your body.</p>
+        <p>Google Nest Hub (2nd Gen) changed the calculation entirely. It sits on your bedside table and uses a low-energy radar technology called Soli, originally developed for gesture control on Pixel phones. The device emits radar signals and reads the tiny movements of your breathing and body throughout the night, tracking your sleep cycles and generating a detailed sleep analysis every morning.</p>
+        <p>It does all of this without touching you. Without a camera. Without any wearable. You just sleep, and a device on your nightstand silently maps the architecture of your night using radar signals too weak to cause any health concerns. The idea of a machine watching you sleep and understanding your body better than you do is the premise of about a dozen dystopian films. In practice, it turns out to be genuinely useful.</p>
+        <h3>4. Portable Air Quality Monitors</h3>
+        <p>This one does not look glamorous. But the technology inside a modern portable air quality monitor is quietly extraordinary, and the information it gives you is the kind that can meaningfully change how you make decisions every day.</p>
+        <p>Devices like the IQAir AirVisual Pro or the Atmotube Plus are small enough to clip to a bag or sit on a desk. They measure particulate matter at the PM2.5 level, meaning particles smaller than 2.5 micrometres that can penetrate deep into lung tissue. They measure CO2 concentration, which affects cognitive performance even at levels that feel completely normal to breathe. They track volatile organic compounds emitted by everything from cleaning products to furniture to paint.</p>
+        <p>Research consistently shows that indoor air quality is often worse than outdoor air quality, and that poor air quality has measurable effects on cognitive function, sleep and long-term health. For most of human history, this information was invisible. Now it fits in your pocket.</p>
+        <h3>5. AR-Assisted Repair Tools</h3>
+        <p>Imagine you are trying to fix a washing machine. You have no idea where to start. In the past, your options were a paper manual written for a different model, a YouTube video that may or may not match your specific machine, or an expensive call to a repair technician.</p>
+        <p>Now, some manufacturers and third-party platforms offer augmented reality guided repair. You point your phone camera at the appliance, the app identifies the model, and a step-by-step visual overlay appears on your screen, showing you exactly which panel to remove, which screw to loosen, which component to replace, and in what order. The instructions are not on a separate piece of paper. They are floating on top of the actual machine in front of you.</p>
+        <p>Scope AR and Vuforia have brought this technology to industrial maintenance, where technicians wearing AR headsets receive real-time visual guidance for complex equipment repairs. Bosch and Hyundai have both piloted AR repair assistance programs. Consumer versions are beginning to appear for home appliances and electronics. Within a few years, having an app walk you through fixing your own laptop is going to seem as normal as following a recipe on your phone while you cook.</p>
+        <h3>The Pattern Worth Noticing</h3>
+        <p>Looking at these five gadgets together, a pattern becomes clear. None of them are about spectacle. There are no flying cars here, no teleportation pods. The most transformative technology arriving right now tends to be quiet, practical, and almost invisible in how it integrates into daily life.</p>
+        <p>The science fiction version of the future was always loud: laser guns, hovering cities, dramatic interfaces with lots of flashing lights. The actual future turns out to be quieter and stranger. It shows up looking like a normal pair of glasses. It fits in your pocket. It sits on your bedside table and watches you sleep with radar. And by the time most people notice it is there, it has already become ordinary.</p>
+      </div>
+    </div>
+    <button class="read-more" onclick="toggleRead(this)">Read Full Article ↓</button>
+  </div>
+
+  </div>
+  <div class="blogs-side">
+  <div class="article-card">
+    <div class="article-meta">
+      <span class="pill pill-green">Technology</span>
+      <span class="pill pill-gray">6 min read</span>
+    </div>
+    <h2>Beginner's Guide to JavaScript Basics</h2>
+    <div class="subtitle">You don't need to be a developer to understand the language that powers the internet</div>
+    <div class="article-body">
+      <p>Every website you have ever used, every button you have ever clicked, every form you have ever filled out, and every animation you have ever watched play out on a screen was almost certainly powered by JavaScript. It is everywhere, and yet most people have no idea what it actually is or how it works.</p>
+      <p>This guide is not for people who want to become professional developers. It is for curious people who want to understand what JavaScript does, why it matters, and how to write their very first lines of it.</p>
+    </div>
+    <div class="full-content">
+      <div class="article-body">
+        <h3>What Is JavaScript, Exactly?</h3>
+        <p>To understand JavaScript, it helps to understand the three languages that work together to build every webpage you have ever visited. HTML is the structure, the skeleton. It defines what content exists on a page: headings, paragraphs, images, buttons. CSS is the style, the skin and clothing. It controls how everything looks: colors, fonts, spacing, layout. JavaScript is the behaviour, the muscle and nervous system. It controls what things do.</p>
+        <p>Without JavaScript, a webpage is just a static document. It just sits there. JavaScript is what makes things respond. It is why clicking a button can open a menu, why typing in a search box can show suggestions before you finish typing, why an image can slide across the screen, why a notification can pop up asking if you want to enable cookies. All of that is JavaScript doing its job.</p>
+        <h3>Your First Line of JavaScript</h3>
+        <p>One of the best things about JavaScript is that you can run it right now, without installing anything. Open any webpage in Google Chrome, right-click anywhere, click "Inspect," and then click the "Console" tab. You now have a live JavaScript environment.</p>
+        <p>Type this and press Enter:</p>
+        <p><strong>console.log("Hello, world!");</strong></p>
+        <p>The text Hello, world! will appear below. Congratulations. You just wrote and ran your first JavaScript. The console.log function is simply an instruction that says "print this text so I can see it." Developers use it constantly to check that their code is working correctly.</p>
+        <h3>Variables: Storing Information</h3>
+        <p>A variable is like a labelled box. You put information inside it, give it a name, and then use that name whenever you need to access the information again.</p>
+        <p>In JavaScript, you create a variable like this:</p>
+        <p><strong>let name = "Aditya";</strong></p>
+        <p>Now whenever you type name in your code, JavaScript knows you mean "Aditya." You can change what is in the box at any time. You can also store numbers, true or false values, lists of things, and much more complex data. Variables are the foundation of almost everything in programming.</p>
+        <h3>Functions: Reusable Instructions</h3>
+        <p>A function is a set of instructions that you package up and give a name, so you can use those instructions again and again without rewriting them every time.</p>
+        <p>Imagine you are baking bread and you write down the recipe. The recipe is a function. Every time you want to bake bread, you follow the recipe rather than figuring out the process from scratch. In JavaScript, a basic function looks like this:</p>
+        <p><strong>function greet(name) { console.log("Hello, " + name); }</strong></p>
+        <p>Now whenever you type greet("Aditya"), JavaScript will print Hello, Aditya. Change the name you pass in, and the output changes accordingly. One set of instructions, infinite uses.</p>
+        <h3>Conditions: Making Decisions</h3>
+        <p>Real programs need to make decisions. If the user is logged in, show them their dashboard. If they are not logged in, show them the login page. JavaScript handles decisions with if statements.</p>
+        <p><strong>if (age >= 18) { console.log("Access granted"); } else { console.log("Access denied"); }</strong></p>
+        <p>This checks whether the value stored in the variable age is 18 or above. If it is, one thing happens. If it is not, something else happens. This simple structure, check a condition and respond accordingly, is the logic behind almost every decision a program makes.</p>
+        <h3>Why This Matters Even If You Never Code Professionally</h3>
+        <p>Understanding JavaScript basics changes how you see the internet. You stop seeing websites as magic and start seeing them as systems built by people using learnable tools. You begin to understand what is and is not technically possible. You can have more informed conversations with developers. You can read and understand simple code when you encounter it. You can even make small changes to webpages yourself.</p>
+        <p>The world is increasingly built on software. JavaScript is one of the most foundational languages in that software. You do not need to master it. But understanding its basics gives you a clearer picture of the world you already live in every day.</p>
+      </div>
+    </div>
+    <button class="read-more" onclick="toggleRead(this)">Read Full Article ↓</button>
+  </div>
+
+  <div class="article-card">
+    <div class="article-meta">
+      <span class="pill pill-green">Productivity</span>
+      <span class="pill pill-gray">5 min read</span>
+    </div>
+    <h2>Top 5 Ways to Stay Productive as a Student</h2>
+    <div class="subtitle">Practical strategies that actually work, with no 5am wake-ups required</div>
+    <div class="article-body">
+      <p>Most productivity advice is written for people with offices, assistants, and the luxury of controlling their entire schedule. Students have none of that. You have overlapping deadlines, unpredictable energy levels, a social life pulling in one direction and a syllabus pulling in another, and approximately one functioning brain cell left by Thursday evening.</p>
+      <p>These five strategies are built for that reality. Not the idealised version of student life. The actual one.</p>
+    </div>
+    <div class="full-content">
+      <div class="article-body">
+        <h3>1. Stop Making To-Do Lists and Start Making Priority Lists</h3>
+        <p>The standard to-do list is one of the most satisfying and least productive tools in existence. You write down everything you need to do, spend the day crossing off the easy things, and go to bed feeling accomplished while the three most important tasks sit untouched at the bottom of the list.</p>
+        <p>The fix is simple but requires honesty. At the start of each day, write down everything you need to do, and then identify the single most important task. The one thing that, if you got nothing else done, would still make the day a success. Do that first. Before checking your phone. Before responding to messages. Before doing anything easier. One important thing done beats five small things every time.</p>
+        <p>The Eisenhower Matrix, a framework used by everyone from military generals to startup founders, sorts tasks into four categories: urgent and important, important but not urgent, urgent but not important, and neither. Most students spend their days in the urgent categories and never get to the important-but-not-urgent work, which is usually the stuff that actually changes their trajectory.</p>
+        <h3>2. Use the Pomodoro Technique and Adapt It to Yourself</h3>
+        <p>The Pomodoro Technique is well known: work for 25 minutes, take a 5 minute break, repeat. After four cycles, take a longer break. The idea is that shorter, focused bursts of work are more productive than long, distracted sessions where you half-work for three hours and accomplish what you could have done in forty-five minutes of real focus.</p>
+        <p>The technique works. But the 25-minute window is not sacred. Some people find they hit their stride around the 20-minute mark and stopping at 25 feels disruptive. Others need 35 or 40 minutes to get into a real flow state. The point is not the specific time. It is the principle of working in defined blocks with genuine breaks in between, rather than leaving your work session open-ended and letting your attention leak out across hours.</p>
+        <p>Use a timer. Put your phone in another room for the duration. Close all tabs that are not directly related to what you are working on. Then just start. The hardest part is always starting.</p>
+        <h3>3. Protect Your Energy, Not Just Your Time</h3>
+        <p>Time management is taught as though all hours are equal. They are not. An hour at 9am when you are rested and focused is not the same as an hour at 9pm when you are exhausted and distracted. Treating them as equivalent, and scheduling your hardest work whenever there is a gap in your timetable, is one of the most common and costly productivity mistakes students make.</p>
+        <p>Pay attention to when you are naturally at your best. Most people have a window of two to four hours per day where their focus and cognitive performance peaks. For some people this is morning. For others it is late afternoon. Identify yours and guard it fiercely. Schedule your most demanding academic work during that window. Save emails, admin, easy readings, and social activities for the hours when your energy is lower.</p>
+        <p>Also take sleep seriously. Research on academic performance consistently shows that sleep deprivation impairs memory consolidation, problem-solving ability, and creative thinking. Pulling an all-nighter before an exam does not work. Your brain needs sleep to transfer what you studied into long-term memory. Six hours of study plus eight hours of sleep will almost always outperform ten hours of study plus four hours of sleep.</p>
+        <h3>4. Build Systems, Not Just Habits</h3>
+        <p>A habit is something you try to remember to do. A system is something that happens automatically because you have set up your environment to make it the default.</p>
+        <p>The distinction matters. Telling yourself "I will study for two hours every evening" is a habit. It depends on willpower and memory, both of which are unreliable. Booking a specific library desk every weekday from 5pm to 7pm, putting it in your calendar with a notification, keeping your study materials in your bag ready to go, and telling your friends you are unavailable during that window is a system. It removes the daily decision of whether to study and makes studying the path of least resistance.</p>
+        <p>James Clear, in Atomic Habits, argues that environment design is more powerful than motivation. You do not need to be more disciplined. You need to make the right actions easier and the wrong actions harder. Put your phone charger in a different room from your desk. Use website blockers during study sessions. Keep your notes organised so starting work does not require a ten-minute archaeology expedition through your files first.</p>
+        <h3>5. Review and Adjust Every Week</h3>
+        <p>Most students run on autopilot, repeating the same patterns week after week regardless of whether those patterns are working. The students who consistently perform well tend to do one thing differently: they regularly step back and assess what is actually happening, rather than just grinding forward on instinct.</p>
+        <p>A weekly review does not need to be complicated. Ten minutes on Sunday evening. Look at what you planned to do last week versus what you actually did. Identify one or two things that went well and one or two things that did not. Make one specific adjustment to your approach for the coming week. Then close the review and move on.</p>
+        <p>The goal is not perfection. The goal is a slow, steady accumulation of self-knowledge. Over a semester, students who do this develop a clear understanding of how they work best, what derails them, and what strategies actually move the needle for them specifically. That knowledge compounds. It is worth more than any single productivity hack.</p>
+        <p>Productivity is not about doing more. It is about doing the right things in the right order with enough energy to do them properly. Everything else is just noise.</p>
+      </div>
+    </div>
+    <button class="read-more" onclick="toggleRead(this)">Read Full Article ↓</button>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div id="social" class="section">
+  <div class="section-label">Social Media: Instagram Captions</div>
+  <div class="caption-grid">
+    <div class="caption-card">
+      <div class="platform">Instagram</div>
+      <div class="topic">AI taking jobs</div>
+      <div class="caption-text">Hot take: AI isn't stealing your job.<br><br>Someone who knows how to use AI is.<br><br>The question isn't whether to adapt. It's how fast you're willing to start.</div>
+      <div class="hashtags">#AI #FutureOfWork #Technology #CareerAdvice #Productivity</div>
+    </div>
+    <div class="caption-card">
+      <div class="platform">Instagram</div>
+      <div class="topic">New gadget drop</div>
+      <div class="caption-text">Imagine glasses that whisper the name of the person you just met, because they recognised their face.<br><br>That's not 2045. That's next year.<br><br>We're living in a sci-fi novel and nobody told us.</div>
+      <div class="hashtags">#Gadgets #Tech #SmartGlasses #Innovation #FutureTech</div>
+    </div>
+    <div class="caption-card">
+      <div class="platform">Instagram</div>
+      <div class="topic">Digital detox</div>
+      <div class="caption-text">Your phone spent more time calculating your mood today than you did.<br><br>The algorithm knows when you're bored, anxious, or lonely, and it has a video ready for each one.<br><br>Sometimes logging off is the most rebellious thing you can do.</div>
+      <div class="hashtags">#DigitalWellness #ScreenTime #MindfulTech #SocialMedia #MentalHealth</div>
+    </div>
+  </div>
+
+  <div class="caption-card" style="margin-top: 20px; max-width: 100%;">
+    <div class="platform">Instagram Reel Script</div>
+    <div class="topic">3 Best Skills You Can Learn in 2026</div>
+    <div class="caption-text" style="white-space: pre-line; margin-top: 8px;">
+<strong style="color:#aaa;">[HOOK — 0:00 to 0:03]</strong>
+Three skills. 2026. Pick even one and you are ahead of 90% of people your age.
+
+<strong style="color:#aaa;">[SKILL 1 — 0:04 to 0:12]</strong>
+Number one. Prompt engineering. AI is not going anywhere. Most people are still using it like a search engine though. Learning how to actually talk to AI, structure your requests, and get useful output is the difference between saving ten minutes and saving ten hours a week.
+
+<strong style="color:#aaa;">[SKILL 2 — 0:13 to 0:22]</strong>
+Number two. Video editing. Short-form content is the resume of 2026. Whether you want a job, clients, or just an audience, knowing how to cut a clean, watchable video on CapCut or Premiere puts you in a different league from people who are still just posting photos.
+
+<strong style="color:#aaa;">[SKILL 3 — 0:23 to 0:32]</strong>
+Number three. Data literacy. You do not need to become a data scientist. You need to be able to read a chart, understand a metric, and ask the right questions about numbers. Every company in every industry is drowning in data and starving for people who can make sense of it.
+
+<strong style="color:#aaa;">[CTA — 0:33 to 0:38]</strong>
+None of these require a degree. All of them are free to start learning today. Save this if you needed the push.
+    </div>
+    <div class="hashtags"> #SelfImprovement #LearnOnline #AISkills #VideoEditing #CareerGrowth </div>
+  </div>
+
+</div>
+
+<div id="seo" class="section">
+  <div class="section-label">SEO Article: Keyword Optimised</div>
+  <div class="seo-box">
+    <div class="kw">Target Keywords: best AI tools for students 2026 · free AI tools · AI productivity tools</div>
+    <h2>The Best Free AI Tools for Students in 2026 (That Actually Help)</h2>
+    <div class="seo-body">
+      <p>Whether you're writing assignments at midnight or trying to understand a lecture that made zero sense, <strong>AI tools for students</strong> have quietly become some of the most powerful study aids available, and the best ones are free.</p>
+      <p>Here's a practical, no-fluff guide to the <strong>best free AI tools for students</strong> that are genuinely worth your time.</p>
+      <p><strong>1. ChatGPT (Free tier):</strong> Still the most versatile AI tool available. Use it to explain concepts in simple terms, get feedback on your essays, or brainstorm ideas when you're stuck. The free version is powerful enough for most student needs.</p>
+      <p><strong>2. Notion AI:</strong> If you already use Notion for notes, the AI integration lets you summarise long readings, generate outlines, and clean up your writing without leaving your workspace.</p>
+      <p><strong>3. Perplexity AI:</strong> Think of it as a search engine that actually explains its answers and cites its sources. Excellent for research, and far more reliable than using a chatbot to find facts.</p>
+      <p><strong>4. Grammarly:</strong> The free version catches grammar errors, awkward phrasing, and clarity issues that spell-check completely misses. Non-negotiable for any student submitting written work.</p>
+      <p><strong>5. Quillbot:</strong> Useful for paraphrasing dense academic texts into language that's easier to understand and work with. Great for processing research papers.</p>
+      <p>The key with any <strong>AI productivity tool</strong> is using it to enhance your thinking, not replace it. These tools work best when you bring the ideas and let AI help you sharpen them.</p>
+    </div>
+  </div>
+</div>
+
+<div id="newsletter" class="section">
+  <div class="section-label">Newsletter — Weekly Digest Sample</div>
+  <div class="seo-box" style="max-width: 680px;">
+    <div class="kw" style="margin-bottom: 6px;"> Name: Aditya Tech Digest &nbsp;·&nbsp; Cadence: Weekly</div>
+    <h2 style="font-size: 22px; margin-bottom: 4px;">Your Weekly Summary of Key Developments in Tech</h2>
+    <p style="font-size: 12px; color: #444; margin-bottom: 28px; font-style: italic;">written for a general audience interested in technology trends</p>
+
+    <div class="seo-body">
+
+      <p style="color:#7a9e7e; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">01 &nbsp;—&nbsp; AI Glasses Are Moving Into the Mainstream</p>
+      <p>AI-powered smart glasses are rapidly evolving from concept to consumer-ready products. New devices are launching with integrated assistants, cameras, and real-time contextual features. Meta continues to expand its smart glasses lineup, including prescription options, while other major players are entering the segment, signalling strong industry momentum.</p>
+      <p style="color: #555; font-size: 13px; font-style: italic; margin-top: -8px;">What it means: A shift toward more immersive and always-on AI experiences in everyday life is well underway.</p>
+
+      <div style="border-top: 1px solid #1a1a1a; margin: 24px 0;"></div>
+
+      <p style="color:#7a9e7e; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">02 &nbsp;—&nbsp; Apple Signals a Leadership Transition and AI Focus</p>
+      <p>Apple is entering a new phase with leadership and strategic changes. Tim Cook is expected to step down as CEO, with hardware head John Ternus positioned as successor. The company faces increasing pressure to accelerate its AI capabilities, and upcoming iOS updates are expected to significantly enhance Siri with more advanced AI features.</p>
+      <p style="color: #555; font-size: 13px; font-style: italic; margin-top: -8px;">What it means: Apple's broader push to remain competitive in the evolving AI landscape is reshaping the company from the top down.</p>
+
+      <div style="border-top: 1px solid #1a1a1a; margin: 24px 0;"></div>
+
+      <p style="color:#7a9e7e; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">03 &nbsp;—&nbsp; Personal Devices Are Becoming More Powerful</p>
+      <p>Consumer devices are seeing major improvements in on-device AI processing. Smartphones, wearables, and other devices are integrating advanced AI chips, and by the end of the decade, personal devices could match the capabilities of older supercomputers.</p>
+      <p style="color: #555; font-size: 13px; font-style: italic; margin-top: -8px;">What it means: Faster processing, improved privacy, and reduced reliance on cloud computing, all arriving in a device in your pocket.</p>
+
+      <div style="border-top: 1px solid #1a1a1a; margin: 24px 0;"></div>
+
+      <p style="color:#7a9e7e; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">04 &nbsp;—&nbsp; India's Growing Role in AI Development</p>
+      <p>India is making notable progress in building its AI ecosystem, driven by development of AI models supporting multiple regional languages, growth in domestic hardware and voice technology initiatives, and increased investment in infrastructure including large-scale GPU deployment.</p>
+      <p style="color: #555; font-size: 13px; font-style: italic; margin-top: -8px;">What it means: India is transitioning from technology adoption to genuine innovation and development on a global scale.</p>
+
+      <div style="border-top: 1px solid #1a1a1a; margin: 24px 0;"></div>
+
+      <p style="color:#7a9e7e; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">05 &nbsp;—&nbsp; The Limits of AI in Creativity</p>
+      <p>Despite rapid advancements, AI still faces challenges in replicating human creativity. AI systems can mimic patterns and trends but lack genuine cultural understanding, and experts continue to debate the extent to which AI can develop original creative judgment.</p>
+      <p style="color: #555; font-size: 13px; font-style: italic; margin-top: -8px;">What it means: The gap between computational ability and human intuition remains real and worth paying attention to.</p>
+
+      <div style="border-top: 1px solid #1a1a1a; margin: 24px 0;"></div>
+
+      <p style="color: #666; font-size: 13px;">Regards,<br><strong style="color: #aaa;">Aditya's Tech Digest</strong></p>
+    </div>
+  </div>
+</div>
+
+<div id="calendar" class="section">
+  <div class="section-label">Editorial Calendar: 1 Week Sample</div>
+  <div style="background:#111;border:1px solid #1e1e1e;border-radius:2px;overflow:hidden;">
+    <table class="calendar-table">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Format</th>
+          <th>Topic</th>
+          <th>Platform</th>
+          <th>Goal</th>
+        </tr>
+      </thead>
+       <tbody>
+        <tr>
+          <td>Monday</td>
+          <td>Blog Post</td>
+          <td>The AI That Knows You Better Than You Know Yourself</td>
+          <td>Website </td>
+          <td>SEO traffic</td>
+        </tr>
+        <tr>
+          <td>Tuesday</td>
+          <td>Instagram Caption</td>
+          <td>New Gadget Drops</td>
+          <td>Instagram</td>
+          <td>Engagement + shares</td>
+        </tr>
+        <tr>
+          <td>Wednesday</td>
+          <td>LinkedIn Post</td>
+          <td>Top 5 Ways to Stay Productive as a Student</td>
+          <td>LinkedIn</td>
+          <td>Professional visibility</td>
+        </tr>
+        <tr>
+          <td>Thursday</td>
+          <td>SEO Article</td>
+          <td>The Best Free AI Tools for Students in 2026 </td>
+          <td>Website</td>
+          <td>Organic search ranking</td>
+        </tr>
+        <tr>
+          <td>Friday</td>
+          <td>Instagram Reel Script</td>
+          <td>3 AI tools you didn't know existed (30 sec)</td>
+          <td>Instagram / YouTube Shorts</td>
+          <td>Reach + follower growth</td>
+        </tr>
+        <tr>
+          <td>Saturday</td>
+          <td>Newsletter</td>
+          <td>Weekly digest: top tech stories</td>
+          <td>Email / Substack</td>
+          <td>Audience retention</td>
+        </tr>
+        <tr>
+          <td>Sunday</td>
+          <td>Analytics Review</td>
+          <td>Review performance, plan next week's content</td>
+          <td>Internal</td>
+          <td>Optimise strategy</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  
+  function show(id, btn) {
+    document.querySelectorAll('.section').forEach(s => {
+      s.classList.remove('visible');
+    });
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    const target = document.getElementById(id);
+    target.classList.add('visible');
+    btn.classList.add('active');
+    
+    observeReveals();
+  }
+
+  
+  function toggleRead(btn) {
+    const card = btn.closest('.article-card');
+    const full = card.querySelector('.full-content');
+    const open = full.classList.toggle('open');
+    btn.textContent = open ? 'Collapse ↑' : 'Read Full Article ↓';
+  }
+
+  
+  function observeReveals() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          
+          setTimeout(() => {
+            entry.target.classList.add('in-view');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.reveal:not(.in-view)').forEach(el => {
+      observer.observe(el);
+    });
+  }
+
+  
+  function initParallax() {
+    const b1   = document.querySelector('.bg-glow.one');
+    const b2   = document.querySelector('.bg-glow.two');
+    const hero = document.querySelector('.hero');
+
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+    let rafId = null;
+
+    document.addEventListener('mousemove', e => {
+      const cx = window.innerWidth  / 2;
+      const cy = window.innerHeight / 2;
+      targetX = (e.clientX - cx) / cx;
+      targetY = (e.clientY - cy) / cy;
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    });
+
+    document.addEventListener('mouseleave', () => {
+      targetX = 0;
+      targetY = 0;
+    });
+
+    function tick() {
+      
+      currentX += (targetX - currentX) * 0.07;
+      currentY += (targetY - currentY) * 0.07;
+
+      
+      if (b1) b1.style.transform = `translate(${currentX * 28}px, ${currentY * 20}px)`;
+      if (b2) b2.style.transform = `translate(${currentX * -34}px, ${currentY * -24}px)`;
+
+      
+      if (hero) hero.style.transform = `translate(${currentX * 8}px, ${currentY * 5}px)`;
+
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  
+  function initCursorGlow() {
+    const glow = document.createElement('div');
+    glow.style.cssText = `
+      position: fixed; pointer-events: none; z-index: 9999;
+      width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(122,158,126,0.06) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: left 0.12s ease, top 0.12s ease;
+      top: -999px; left: -999px;
+    `;
+    document.body.appendChild(glow);
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+  }
+
+  
+  function typewriter(el, text, speed = 38) {
+    el.textContent = '';
+    let i = 0;
+    const tick = () => {
+      if (i < text.length) {
+        el.textContent += text[i++];
+        setTimeout(tick, speed);
+      }
+    };
+    
+    setTimeout(tick, 700);
+  }
+
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    const defaultSection = document.getElementById('blogs');
+    const defaultBtn = document.querySelector('.nav-btn');
+    if (defaultSection) defaultSection.classList.add('visible');
+    if (defaultBtn) defaultBtn.classList.add('active');
+
+    document.querySelectorAll('.article-card, .caption-card, .seo-box, .calendar-table').forEach(el => {
+      el.classList.add('reveal');
+    });
+
+    const span = document.querySelector('.hero h1 span');
+    if (span) {
+      const original = span.textContent;
+      typewriter(span, original, 42);
+    }
+
+    
+    observeReveals();
+
+    
+    initCursorGlow();
+
+    
+    initParallax();
+  });
+</script>
+</body>
+</html>
